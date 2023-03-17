@@ -5,10 +5,16 @@
 	{% for p in posts %}
 			<li><h2>{{p.title}}</h2>
 	{% autoescape on %}
-	{{p.content|linebreaks|truncatewords:50}}
+				<p>Артикул: {{p.vendor_code}}</p>
+				<p>Состав: {{p.compound}}</p>
+				<p>Время горения: {{p.burn_time}}</p>
+				<p>Размеры: {{p.size}}</p>
+				<p>Вес: {{p.wight}}</p>
+				<p>Количество в коробке: {{p.amount}}</p>
+				<p><b>Цена: {{p.price}}р.</b></p>
 	{% endautoescape %}
 			<div class="clear"></div>
-			<p class="link-read-post"><a href="#">Читать пост</a></p>
+			<p class="link-read-post"><a href="#">Купить</a></p>
 			</li>
 	{% endfor %}
 </ul>
