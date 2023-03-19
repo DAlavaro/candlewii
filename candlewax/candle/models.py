@@ -15,6 +15,8 @@ class Candle(models.Model):
     time_create = models.DateTimeField(auto_now_add=True, verbose_name='Время создания')
     time_update = models.DateTimeField(auto_now=True, verbose_name='Время редактирования')
     is_published = models.BooleanField(default=True, verbose_name='Публикация')
+    cat = models.ForeignKey('Category', on_delete=models.PROTECT, null=True)
+
 
     def __str__(self):
         return self.title
@@ -25,6 +27,13 @@ class Candle(models.Model):
     class Meta:
         verbose_name = 'Таблица товаров'
         verbose_name_plural = 'Таблица товаров'
+
+
+class Category(models.Model):
+    name = models.CharField(max_length=100, db_index=True)
+
+    def __str__(self):
+        return self.name
 
 
 class Info(models.Model):
