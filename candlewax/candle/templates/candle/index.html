@@ -14,7 +14,7 @@
 				<p><b>Цена: {{p.price}}р.</b></p>
 	{% endautoescape %}
 			<div class="clear"></div>
-			<p class="link-read-post"><a href="#">Купить</a></p>
+			<p class="link-read-post"><a href="{{ p.get_absolute_url }}">Купить</a></p>
 			</li>
 	{% endfor %}
 </ul>

@@ -20,4 +20,68 @@ class Candle(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('posts', kwargs={'post_id': self.pk})
+        return reverse('buy', kwargs={'buy_id': self.pk})
+
+    class Meta:
+        verbose_name = 'Таблица товаров'
+        verbose_name_plural = 'Таблица товаров'
+
+
+class Info(models.Model):
+    title = models.CharField(max_length=255, verbose_name='Заголовок')
+    content = models.TextField(verbose_name='Контент')
+
+    def __str__(self):
+        return self.title
+
+    # def get_absolute_url(self):
+    #     return reverse('buy', kwargs={'buy_id': self.pk})
+
+    class Meta:
+        verbose_name = 'Инфо'
+        verbose_name_plural = 'Инфо'
+
+
+class About(models.Model):
+    title = models.CharField(max_length=255, verbose_name='Заголовок')
+    content = models.TextField(verbose_name='Контент')
+
+    def __str__(self):
+        return self.title
+
+    # def get_absolute_url(self):
+    #     return reverse('buy', kwargs={'buy_id': self.pk})
+
+    class Meta:
+        verbose_name = 'О нас'
+        verbose_name_plural = 'О нас'
+
+
+class Delivery(models.Model):
+    title = models.CharField(max_length=255, verbose_name='Заголовок')
+    content = models.TextField(verbose_name='Контент')
+
+    def __str__(self):
+        return self.title
+
+    # def get_absolute_url(self):
+    #     return reverse('buy', kwargs={'buy_id': self.pk})
+
+    class Meta:
+        verbose_name = 'Доставка'
+        verbose_name_plural = 'Доставка'
+
+
+class Reviews(models.Model):
+    title = models.CharField(max_length=255, blank=True, verbose_name='Заголовок')
+    content = models.TextField(verbose_name='Контент')
+
+    def __str__(self):
+        return self.title
+
+    # def get_absolute_url(self):
+    #     return reverse('buy', kwargs={'buy_id': self.pk})
+
+    class Meta:
+        verbose_name = 'Отзывы'
+        verbose_name_plural = 'Отзывы'

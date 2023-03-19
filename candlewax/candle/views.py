@@ -1,29 +1,73 @@
 from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import render
 
-from .models import Candle
+from .models import Candle, Info, About, Delivery, Reviews
 
-menu = ["ИНФО", "О НАС", "ДОСТАВКА", "ОТЗЫВЫ", "ВОЙТИ"]
-
+menu = [
+    {'title': 'ИНФО', 'url_name': 'info'},
+    {'title': 'О НАС', 'url_name': 'about'},
+    {'title': 'ДОСТАВКА', 'url_name': 'delivery'},
+    {'title': 'ОТЗЫВЫ', 'url_name': 'reviews'},
+    {'title': 'ВОЙТИ', 'url_name': 'login'},
+]
 
 def index(request):
     posts = Candle.objects.all()
-    return render(request, 'candle/index.html', {
+    context = {
         'posts': posts,
         'menu': menu,
         'title': 'Главная страница'
-    })
+    }
+
+    return render(request, 'candle/index.html', context=context)
 
 
 def info(request):
-    return render(request, 'candle/info.html', {'menu': menu, 'title': 'О сайте'})
+    posts = Info.objects.all()
+    context = {
+        'posts': posts,
+        'menu': menu,
+        'title': 'Главная страница'
+    }
+    return render(request, 'candle/info.html', context=context)
 
 
-def reviews(request, idr):
-    if request.GET:
-        print(request.GET)
+def about(request):
+    posts = About.objects.all()
+    context = {
+        'posts': posts,
+        'menu': menu,
+        'title': 'Главная страница'
+    }
+    return render(request, 'candle/about.html', context=context)
 
-    return HttpResponse(f'Отзыв номер {idr}')
+def delivery(request):
+    posts = Delivery.objects.all()
+    context = {
+        'posts': posts,
+        'menu': menu,
+        'title': 'Главная страница'
+    }
+    return render(request, 'candle/delivery.html', context=context)
+
+
+def reviews(request):
+    posts = Reviews.objects.all()
+    context = {
+        'posts': posts,
+        'menu': menu,
+        'title': 'Главная страница'
+    }
+    return render(request, 'candle/reviews.html', context=context)
+
+
+def login(request):
+    return HttpResponse('Авторизация')
+
+
+def show_buy(request, buy_id):
+    return HttpResponse(f'Отображение корзины с id = {buy_id}')
+
 
 
 def pageNotFound(request, exception):
