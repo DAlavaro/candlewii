@@ -3,7 +3,8 @@
 {% block content %}
 <ul class="list-articles">
 	{% for p in posts %}
-			<li><h2>{{p.title}}</h2>
+			<li>
+				<h2>{{p.title}}</h2>
 	{% autoescape on %}
 				<p>Артикул: {{p.vendor_code}}</p>
 				<p>Состав: {{p.compound}}</p>
