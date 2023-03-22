@@ -71,6 +71,9 @@ def login(request):
 def show_buy(request, buy_id):
     return HttpResponse(f'Отображение корзины с id = {buy_id}')
 
+
+
+
 def show_catalog(request, cat_id):
     posts = Candle.objects.filter(cat_id=cat_id)
     cats = Category.objects.all()
