@@ -13,10 +13,8 @@ menu = [
 
 def index(request):
     posts = Candle.objects.all()
-    cats = Category.objects.all()
     context = {
         'posts': posts,
-        'cats': cats,
         'menu': menu,
         'title': 'Главная страница',
         'cat_selected': 0,
@@ -76,14 +74,12 @@ def show_buy(request, buy_id):
 
 def show_catalog(request, cat_id):
     posts = Candle.objects.filter(cat_id=cat_id)
-    cats = Category.objects.all()
 
     if len(posts) == 0:
         raise Http404()
 
     context = {
         'posts': posts,
-        'cats': cats,
         'menu': menu,
         'title': 'Отображение по каталогу',
         'cat_selected': cat_id,
