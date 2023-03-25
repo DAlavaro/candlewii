@@ -34,7 +34,6 @@
 <tr>
 <!-- Sidebar слева -->
 	<td valign="top" class="left-chapters">
-        {% cats filter=1 %}
 
 	<ul id="leftchapters">
 		{% if cat_selected == 0 %}
@@ -43,7 +42,7 @@
 			<li><a href="{% url 'home' %}">Каталог</a></li>
 		{% endif %}
 
-		{% show_categories %}
+		{% show_categories '-name' cat_selected %}
 
 		<li class="share">
 		<p>Наш канал</p>
