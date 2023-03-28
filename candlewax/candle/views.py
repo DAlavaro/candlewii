@@ -3,23 +3,15 @@ from django.shortcuts import render
 
 from .models import Candle, Info, About, Delivery, Reviews, Category
 
-menu = [
-    {'title': 'ИНФО', 'url_name': 'info'},
-    {'title': 'О НАС', 'url_name': 'about'},
-    {'title': 'ДОСТАВКА', 'url_name': 'delivery'},
-    {'title': 'ОТЗЫВЫ', 'url_name': 'reviews'},
-    {'title': 'ВОЙТИ', 'url_name': 'login'},
-]
+
 
 def index(request):
     posts = Candle.objects.all()
     context = {
         'posts': posts,
-        'menu': menu,
         'title': 'Главная страница',
         'cat_selected': 0,
     }
-
     return render(request, 'candle/index.html', context=context)
 
 
@@ -27,7 +19,6 @@ def info(request):
     posts = Info.objects.all()
     context = {
         'posts': posts,
-        'menu': menu,
         'title': 'Главная страница'
     }
     return render(request, 'candle/info.html', context=context)
@@ -37,7 +28,6 @@ def about(request):
     posts = About.objects.all()
     context = {
         'posts': posts,
-        'menu': menu,
         'title': 'Главная страница'
     }
     return render(request, 'candle/about.html', context=context)
@@ -46,7 +36,6 @@ def delivery(request):
     posts = Delivery.objects.all()
     context = {
         'posts': posts,
-        'menu': menu,
         'title': 'Главная страница'
     }
     return render(request, 'candle/delivery.html', context=context)
@@ -56,7 +45,6 @@ def reviews(request):
     posts = Reviews.objects.all()
     context = {
         'posts': posts,
-        'menu': menu,
         'title': 'Главная страница'
     }
     return render(request, 'candle/reviews.html', context=context)
@@ -80,7 +68,6 @@ def show_catalog(request, cat_id):
 
     context = {
         'posts': posts,
-        'menu': menu,
         'title': 'Отображение по каталогу',
         'cat_selected': cat_id,
     }

@@ -3,6 +3,6 @@
 {% block content %}
 {% for p in posts %}
     <h2>{{p.title}}</h2>
-    <p>{{p.content}}</p>
+    <p>{{p.content|linebreaks}}</p>
 {% endfor %}
 {% endblock %}
