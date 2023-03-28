@@ -1,5 +1,5 @@
 from django.http import HttpResponse, HttpResponseNotFound, Http404
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 
 from .models import Candle, Info, About, Delivery, Reviews, Category
 
@@ -58,6 +58,16 @@ def show_buy(request, buy_id):
     return HttpResponse(f'Отображение корзины с id = {buy_id}')
 
 
+def show_product(request, prod_id):
+    post = get_object_or_404(Candle, pk=prod_id)
+
+    context = {
+        'post': post,
+        'title': post.title,
+        'cat_selected': post.cat_id
+    }
+
+    return render(request, 'candle/post.html', context=context)
 
 
 def show_catalog(request, cat_id):

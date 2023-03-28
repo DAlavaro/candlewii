@@ -1,0 +1,17 @@
+{% extends 'candle/base.html' %}
+
+{% block content %}
+    <h1>{{ post.title }}</h1>
+
+    {% if post.photo %}
+<p><img class="img-article-left" src="{{ post.photo.url }}"></p>
+    {% endif %}
+
+    <p>Артикул: {{post.vendor_code}}</p>
+    <p>Состав: {{post.compound}}</p>
+    <p>Время горения: {{post.burn_time}}</p>
+    <p>Размеры: {{post.size}}</p>
+    <p>Вес: {{post.wight}}</p>
+    <p>Количество в коробке: {{post.amount}}</p>
+    <p><b>Цена: {{post.price}}р.</b></p>
+{% endblock %}
