@@ -58,8 +58,8 @@ def show_buy(request, buy_id):
     return HttpResponse(f'Отображение корзины с id = {buy_id}')
 
 
-def show_product(request, prod_id):
-    post = get_object_or_404(Candle, pk=prod_id)
+def show_product(request, prod_slug):
+    post = get_object_or_404(Candle, slug=prod_slug)
 
     context = {
         'post': post,
@@ -70,16 +70,18 @@ def show_product(request, prod_id):
     return render(request, 'candle/post.html', context=context)
 
 
-def show_catalog(request, cat_id):
-    posts = Candle.objects.filter(cat_id=cat_id)
+def show_catalog(request, cat_slug):
+    # cat = Category.objects.get(slug=cat_slug)
+    posts = Candle.objects.filter(cat__slug=cat_slug)
 
+    print(len(posts))
     if len(posts) == 0:
         raise Http404()
 
     context = {
         'posts': posts,
         'title': 'Отображение по каталогу',
-        'cat_selected': cat_id,
+        'cat_selected': cat_slug,
     }
 
     return render(request, 'candle/index.html', context=context)

@@ -7,7 +7,7 @@
                 {% if p.photo %}
                 <p><img class="img-article-left thumb" src="{{ p.photo.url }}"></p>
 				{% endif %}
-                <h2><a href={% url 'product' p.pk  %}>{{p.title}}</a></h2>
+                <h2><a href={% url 'product' p.slug  %}>{{p.title}}</a></h2>
 	{% autoescape on %}
 				<p>Артикул: {{p.vendor_code}}</p>
 				<p>Состав: {{p.compound}}</p>
