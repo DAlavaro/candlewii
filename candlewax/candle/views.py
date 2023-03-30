@@ -1,8 +1,8 @@
 from django.http import HttpResponse, HttpResponseNotFound, Http404
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 
+from .forms import *
 from .models import Candle, Info, About, Delivery, Reviews, Category
-
 
 
 def index(request):
@@ -32,6 +32,7 @@ def about(request):
     }
     return render(request, 'candle/about.html', context=context)
 
+
 def delivery(request):
     posts = Delivery.objects.all()
     context = {
@@ -42,10 +43,23 @@ def delivery(request):
 
 
 def reviews(request):
+    if request.method == 'POST':
+        form = AddPostForm(request.POST)
+        if form.is_valid():
+            try:
+                Reviews.object.create(**form.cleaned_data)
+                return redirect('home')
+            except:
+                form.add_error(None, 'Ошибка добавления комментария')
+
+    else:
+        form = AddPostForm()
+
     posts = Reviews.objects.all()
     context = {
+        'form': form,
         'posts': posts,
-        'title': 'Главная страница'
+        'title': 'Отзывы и предложения'
     }
     return render(request, 'candle/reviews.html', context=context)
 
@@ -85,7 +99,6 @@ def show_catalog(request, cat_slug):
     }
 
     return render(request, 'candle/index.html', context=context)
-
 
 
 def pageNotFound(request, exception):
