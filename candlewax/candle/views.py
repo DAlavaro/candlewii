@@ -37,7 +37,7 @@ def delivery(request):
     posts = Delivery.objects.all()
     context = {
         'posts': posts,
-        'title': 'Главная страница'
+        'title': 'Отзывы'
     }
     return render(request, 'candle/delivery.html', context=context)
 
@@ -46,11 +46,8 @@ def reviews(request):
     if request.method == 'POST':
         form = AddPostForm(request.POST)
         if form.is_valid():
-            try:
-                Reviews.object.create(**form.cleaned_data)
-                return redirect('home')
-            except:
-                form.add_error(None, 'Ошибка добавления комментария')
+            form.save()
+            return redirect('home')
 
     else:
         form = AddPostForm()

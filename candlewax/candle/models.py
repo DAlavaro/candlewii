@@ -18,7 +18,6 @@ class Candle(models.Model):
     is_published = models.BooleanField(default=True, verbose_name='Публикация')
     cat = models.ForeignKey('Category', on_delete=models.PROTECT, null=True, verbose_name="Категории")
 
-
     def __str__(self):
         return self.title
 
@@ -68,7 +67,6 @@ class About(models.Model):
     slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name="URL")
     content = models.TextField(verbose_name='Контент')
 
-
     def __str__(self):
         return self.title
 
@@ -97,16 +95,13 @@ class Delivery(models.Model):
 
 
 class Reviews(models.Model):
-    title = models.CharField(max_length=255, blank=True, verbose_name='Заголовок')
-    slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name="URL")
+    title = models.CharField(max_length=255, verbose_name='Имя')
     content = models.TextField(verbose_name='Контент')
 
     def __str__(self):
         return self.title
 
-    # def get_absolute_url(self):
-    #     return reverse('buy', kwargs={'buy_id': self.pk})
-
     class Meta:
         verbose_name = 'Отзывы'
         verbose_name_plural = 'Отзывы'
+
