@@ -22,56 +22,41 @@ class CandleHome(ListView):
     def get_queryset(self):
         return Candle.objects.filter(is_published=True)
 
-# Функция главной страницы
-# def index(request):
-#     posts = Candle.objects.all()
-#     context = {
-#         'posts': posts,
-#         'title': 'Главная страница',
-#         'cat_selected': 0,
-#     }
-#     return render(request, 'candle/index.html', context=context)
 
-def info(request):
-    posts = Info.objects.all()
-    context = {
-        'posts': posts,
-        'title': 'Главная страница'
-    }
-    return render(request, 'candle/info.html', context=context)
+# класс страницы info.html
+class CandleInfo(ListView):
+    model = Info
+    template_name = 'candle/info.html'
+    context_object_name = 'posts'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Информация'
+        return context
 
 
-def about(request):
-    posts = About.objects.all()
-    context = {
-        'posts': posts,
-        'title': 'Главная страница'
-    }
-    return render(request, 'candle/about.html', context=context)
+# класс страницы about.html
+class CandleAbout(ListView):
+    model = About
+    template_name = 'candle/about.html'
+    context_object_name = 'posts'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'О нас'
+        return context
 
 
-def delivery(request):
-    posts = Delivery.objects.all()
-    context = {
-        'posts': posts,
-        'title': 'Отзывы'
-    }
-    return render(request, 'candle/delivery.html', context=context)
+class CandleDelivery(ListView):
+    model = Delivery
+    template_name = 'candle/delivery.html'
+    context_object_name = 'posts'
 
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Доставка'
+        return context
 
-
-
-# Class для добавления нового отзыва
-# class AddReviews(CreateView):
-#     form_class = AddPostForm
-#     template_name = 'candle/reviews.html'
-#     context_object_name = 'posts'
-#     success_url = reverse_lazy('home')
-#
-#     def get_context_data(self, *, object_list=None, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         context['title'] = 'Отзывы и предложения'
-#         return context
 
 # Функция для добавления нового отзыва
 def reviews(request):
@@ -92,6 +77,18 @@ def reviews(request):
     }
     return render(request, 'candle/reviews.html', context=context)
 
+
+# Class для добавления нового отзыва
+# class AddReviews(CreateView):
+#     form_class = AddPostForm
+#     template_name = 'candle/reviews.html'
+#     context_object_name = 'posts'
+#     success_url = reverse_lazy('home')
+#
+#     def get_context_data(self, *, object_list=None, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context['title'] = 'Отзывы и предложения'
+#         return context
 
 def login(request):
     return HttpResponse('Авторизация')
