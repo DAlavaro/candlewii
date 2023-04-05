@@ -2,21 +2,23 @@ from django.http import HttpResponse, HttpResponseNotFound, Http404
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DeleteView, CreateView
+from django.contrib.auth.mixins import LoginRequiredMixin
+
+from .utils import *
 
 from .forms import *
 from .models import *
 
 # класс главной страницы index.html
-class CandleHome(ListView):
+class CandleHome(DataMixin, ListView):
     model = Candle
     template_name = 'candle/index.html'
     context_object_name = 'posts'
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Главная страница'
-        context['cat_selected'] = 0
-        return context
+        c_def = self.get_user_context(title="Главная страница")
+        return dict(list(context.items()) + list(c_def.items()))
 
     # Функция для отображения только опубликованных записей на главной странице
     def get_queryset(self):
@@ -59,36 +61,39 @@ class CandleDelivery(ListView):
 
 
 # Функция для добавления нового отзыва
-def reviews(request):
-    if request.method == 'POST':
-        form = AddPostForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('home')
-
-    else:
-        form = AddPostForm()
-
-    posts = Reviews.objects.all()
-    context = {
-        'form': form,
-        'posts': posts,
-        'title': 'Отзывы и предложения'
-    }
-    return render(request, 'candle/reviews.html', context=context)
+# @login_required
+# def reviews(request):
+#     if request.method == 'POST':
+#         form = AddPostForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('home')
+#
+#     else:
+#         form = AddPostForm()
+#
+#     posts = Reviews.objects.all()
+#     context = {
+#         'form': form,
+#         'posts': posts,
+#         'title': 'Отзывы и предложения'
+#     }
+#     return render(request, 'candle/reviews.html', context=context)
 
 
 # Class для добавления нового отзыва
-# class AddReviews(CreateView):
-#     form_class = AddPostForm
-#     template_name = 'candle/reviews.html'
-#     context_object_name = 'posts'
-#     success_url = reverse_lazy('home')
-#
-#     def get_context_data(self, *, object_list=None, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         context['title'] = 'Отзывы и предложения'
-#         return context
+class AddReviews(LoginRequiredMixin, DataMixin, CreateView):
+    form_class = AddPostForm
+    template_name = 'candle/reviews.html'
+    success_url = reverse_lazy('home')
+    #login_url = reverse_lazy('home')
+    raise_exception = True
+
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        c_def = self.get_user_context(title='Добавление статьи')
+        return dict(list(context.items()) + list(c_def.items()))
 
 def login(request):
     return HttpResponse('Авторизация')
@@ -125,7 +130,7 @@ class ShowPost(DeleteView):
 #     return render(request, 'candle/post.html', context=context)
 
 # Class отображения списка по категориям
-class CandleCatalog(ListView):
+class CandleCatalog(DataMixin, ListView):
     model = Candle
     template_name = 'candle/index.html'
     context_object_name = 'posts'
@@ -138,26 +143,11 @@ class CandleCatalog(ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Категория -' + str(context['posts'][0].cat)
-        context['cat_selected'] = context['posts'][0].cat_id
-        return context
-
-# Функция отображения списка по категориям
-# def show_catalog(request, cat_slug):
-#     # cat = Category.objects.get(slug=cat_slug)
-#     posts = Candle.objects.filter(cat__slug=cat_slug)
-#
-#     print(len(posts))
-#     if len(posts) == 0:
-#         raise Http404()
-#
-#     context = {
-#         'posts': posts,
-#         'title': 'Отображение по каталогу',
-#         'cat_selected': cat_slug,
-#     }
-#
-#     return render(request, 'candle/index.html', context=context)
+        c_def = self.get_user_context(
+            title='Категория -' + str(context['posts'][0].cat),
+            cat_selected=context['posts'][0].cat_id
+        )
+        return dict(list(context.items()) + list(c_def.items()))
 
 
 def pageNotFound(request, exception):
